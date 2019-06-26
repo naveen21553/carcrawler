@@ -48,9 +48,9 @@ class TestprojPipeline(object):
     def __init__(self):
         # self.mapping = settings['SOLR_MAPPING'].items()
         self.ignore_duplicates = settings['SOLR_IGNORE_DUPLICATES'] or False
-        self.id_fields = settings['SOLR_DUPLICATES_KEY_FIELDS']
-        if self.ignore_duplicates and not self.id_fields:
-            raise RuntimeError('To ignore duplicates SOLR_DUPLICATES_KEY_FIELDS has to be defined')
+        self.id_fields = ['_title']
+        # if self.ignore_duplicates and not self.id_fields:
+        #     raise RuntimeError('To ignore duplicates SOLR_DUPLICATES_KEY_FIELDS has to be defined')
         self.solr = pysolr.Solr(settings['SOLR_URL'], timeout=10)
 
     def process_item(self, item, spider):
@@ -69,6 +69,7 @@ class TestprojPipeline(object):
         titles = d['_title']
         abstracts = d['_abstract']
         source = d['_source']
+        images = d['_image']
 
         articles = []
         for i in range(len(authors)):
@@ -77,6 +78,7 @@ class TestprojPipeline(object):
             article['_title'] = titles[i]
             article['_author'] = authors[i]
             article['_abstract'] = abstracts[i]
+            article['_image'] = images[i]
             articles.append(article)
             
         logger = logging.getLogger()

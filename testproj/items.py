@@ -18,4 +18,5 @@ class TestprojItem(scrapy.Item):
     _date = scrapy.Field()
     _views = scrapy.Field()
     _likes = scrapy.Field()
+    _image = scrapy.Field()
     

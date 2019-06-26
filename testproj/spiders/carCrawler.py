@@ -20,7 +20,7 @@ class carCrawler(scrapy.Spider):
         urls = ['https://www.gaadi.com/car-news']
         for url in urls:
 
-            sitename = url.split('.')[1]
+            sitename = url.split('.')[1] 
 
             if sitename == 'autoblog':
                 yield SplashRequest(url = url, callback = self.parse_autoblog, args = {"wait": 3}, endpoint='render.html')        
@@ -255,13 +255,17 @@ class carCrawler(scrapy.Spider):
         title = response.css(css_dict.get('title')).extract()
         abstract = response.css(css_dict.get('abstract')).extract()
         author = response.css(css_dict.get('author')).extract()
+        image = response.css(css_dict.get('image')).extract()
         source = response.url  
         
+
+
         items = TestprojItem()
         items['_source'] = source
         items['_title'] = title
         items['_author'] = author
         items['_abstract'] = abstract
+        items['_image'] = image
 
         yield items
         try:
@@ -269,10 +273,12 @@ class carCrawler(scrapy.Spider):
         except:
             current_page = 1
 
-        if title:
-            # if title[-1]
+        if current_page < 15:
             yield response.follow(response.urljoin('?page={}'.format(current_page + 1)), callback=self.parse_gaadi)
-            # , args = {"wait": 3}, endpoint='render.html'
+        # if title:
+        #     # if title[-1]
+        #     yield response.follow(response.urljoin('?page={}'.format(current_page + 1)), callback=self.parse_gaadi)
+        #     # , args = {"wait": 3}, endpoint='render.html'
 
 
     def getcss(self, site):
@@ -288,7 +294,7 @@ class carCrawler(scrapy.Spider):
             'carmagazine': {'title': 'article.panel h3.title a::text', 'abstract': 'article.panel p.desc::text', 'author': 'article.panel p.info span.author::text'},
             'cartoq': {'title': 'div.entry-title a::text', 'abstract': 'div.desc p::text', 'author': '.entry-date+ span a::text , .infade , #post-237873 .entry-date a::text', 'date': 'span.entry-date a::text'},
             'carwale': {'title': 'div.news-inner-box a.text-black::text', 'abstract': 'none', 'author': '.author-data span::text'},
-            'gaadi': {'title': '.card-title::text', 'abstract': 'div.card-content p::text', 'author': 'div.card-content div.publish a::text'},
+            'gaadi': {'title': '.card-title::text', 'abstract': 'div.card-content p::text', 'author': 'div.card-content div.publish a::text', 'image': '.card-image img'},
             # 'goodcarbadcar': {},
             # 'not scraped hemmings': {'title': 'div.row a > h3::text', 'abstract': 'div.row p::text', 'author': 'div.row div.meta::text'},
             # 'motortrend': {'title': ''},
