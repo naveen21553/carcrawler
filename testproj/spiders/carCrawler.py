@@ -2,13 +2,19 @@ import scrapy
 from scrapy_splash import SplashRequest
 import scrapy_splash
 import os 
+import pysolr
 import logging
+from scrapy.conf import settings
 from ..items import TestprojItem
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 
 class carCrawler(scrapy.Spider):
     name = 'carcrawler'
+    ignore_duplicates = settings['SOLR_IGNORE_DUPLICATES'] or False
+    solr = pysolr.Solr(settings['SOLR_URL'], timeout=10)
+    logger = logging.getLogger()
+    logger.setLevel(logging.DEBUG)
 
     def start_requests(self):
         urls = []
@@ -258,7 +264,11 @@ class carCrawler(scrapy.Spider):
         image = response.css(css_dict.get('image')).extract()
         source = response.url  
         
-
+        results = self.solr.search('_title:{}'.format(title))
+        
+        if len(results) > 1:
+            self.logger.debug('\n\nArticle already exists! Aborting...\n\n')
+            return None
 
         items = TestprojItem()
         items['_source'] = source
@@ -273,12 +283,12 @@ class carCrawler(scrapy.Spider):
         except:
             current_page = 1
 
-        if current_page < 15:
-            yield response.follow(response.urljoin('?page={}'.format(current_page + 1)), callback=self.parse_gaadi)
-        # if title:
-        #     # if title[-1]
+        # if current_page < 15:
         #     yield response.follow(response.urljoin('?page={}'.format(current_page + 1)), callback=self.parse_gaadi)
-        #     # , args = {"wait": 3}, endpoint='render.html'
+        if title:
+            # if title[-1]
+            yield response.follow(response.urljoin('?page={}'.format(current_page + 1)), callback=self.parse_gaadi)
+            # , args = {"wait": 3}, endpoint='render.html'
 
 
     def getcss(self, site):
