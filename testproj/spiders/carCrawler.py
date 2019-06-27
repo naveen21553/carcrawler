@@ -263,12 +263,12 @@ class carCrawler(scrapy.Spider):
         author = response.css(css_dict.get('author')).extract()
         image = response.css(css_dict.get('image')).extract()
         source = response.url  
+        for t in title:
+            results = self.solr.search('_title:{}'.format(t))
         
-        results = self.solr.search('_title:{}'.format(title))
-        
-        if len(results) > 1:
-            self.logger.debug('\n\nArticle already exists! Aborting...\n\n')
-            return None
+            if len(results) > 1:
+                self.logger.debug('\n\nArticle already exists! Aborting...\n\n')
+                return None
 
         items = TestprojItem()
         items['_source'] = source
