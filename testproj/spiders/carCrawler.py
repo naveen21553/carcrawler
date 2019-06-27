@@ -18,12 +18,12 @@ class carCrawler(scrapy.Spider):
 
     def start_requests(self):
         urls = []
-        # with open(dir_path+'/websites.txt', 'r') as file:
-        #     for website in file:
-        #         if(website.find('#') == -1):
-        #             urls.append(website.replace('\n', ''))
+        with open(dir_path+'/websites.txt', 'r') as file:
+            for website in file:
+                if(website.find('#') == -1):
+                    urls.append(website.replace('\n', ''))
         
-        urls = ['https://www.gaadi.com/car-news']
+        # urls = ['https://www.gaadi.com/car-news']
         for url in urls:
 
             sitename = url.split('.')[1] 

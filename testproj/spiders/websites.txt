@@ -15,7 +15,6 @@ http://overdrive.in/news-cars-auto/
 http://overdrive.in/news-cars-auto/features/
 https://www.cartoq.com/
 https://mynewcar.in/advice/auto-news
-https://www.gaadi.com/car-news
 https://www.autocarindia.com/car-news
 https://www.autocarindia.com/car-news/2
 https://www.cars.com/news/
@@ -69,3 +68,4 @@ https://www.tatamotors.com/blog/
 https://www.carmagazine.co.uk/car-news/tech/
 https://www.carmagazine.co.uk/features/
 https://www.summitracing.com/newsandevents
+https://www.gaadi.com/car-news
