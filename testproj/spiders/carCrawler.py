@@ -1,3 +1,4 @@
+# from scrapy.contrib.spiders import CrawlSpider, Rule
 import scrapy
 from scrapy_splash import SplashRequest
 import scrapy_splash
@@ -18,12 +19,12 @@ class carCrawler(scrapy.Spider):
 
     def start_requests(self):
         urls = []
-        with open(dir_path+'/websites.txt', 'r') as file:
-            for website in file:
-                if(website.find('#') == -1):
-                    urls.append(website.replace('\n', ''))
+        # with open(dir_path+'/websites.txt', 'r') as file:
+        #     for website in file:
+        #         if(website.find('#') == -1):
+        #             urls.append(website.replace('\n', ''))
         
-        # urls = ['https://www.gaadi.com/car-news']
+        urls = ['https://www.gaadi.com/car-news']
         for url in urls:
 
             sitename = url.split('.')[1] 
@@ -66,9 +67,11 @@ class carCrawler(scrapy.Spider):
 
 
     def parse_autoblog(self, response):
-        current_page = int(response.css('.totalRecords::text').extract_first())
-        total_pages = int(response.css('.totalResults::text').extract_first()) 
-        
+        try:
+            current_page = int(response.css('.totalRecords::text').extract_first())
+            total_pages = int(response.css('.totalResults::text').extract_first()) 
+        except:
+            pass
         sitename = response.url.split('.')[1]
         css_dict = self.getcss(sitename)
         title = response.css(css_dict.get('title')).extract()
@@ -263,12 +266,12 @@ class carCrawler(scrapy.Spider):
         author = response.css(css_dict.get('author')).extract()
         image = response.css(css_dict.get('image')).extract()
         source = response.url  
-        for t in title:
-            results = self.solr.search('_title:{}'.format(t))
+        # for t in title:
+        #     results = self.solr.search('_title:{}'.format(t))
         
-            if len(results) > 1:
-                self.logger.debug('\n\nArticle already exists! Aborting...\n\n')
-                return None
+        #     if len(results) > 1:
+        #         self.logger.debug('\n\nArticle already exists! Aborting...\n\n')
+        #         return None
 
         items = TestprojItem()
         items['_source'] = source
@@ -304,7 +307,7 @@ class carCrawler(scrapy.Spider):
             'carmagazine': {'title': 'article.panel h3.title a::text', 'abstract': 'article.panel p.desc::text', 'author': 'article.panel p.info span.author::text'},
             'cartoq': {'title': 'div.entry-title a::text', 'abstract': 'div.desc p::text', 'author': '.entry-date+ span a::text , .infade , #post-237873 .entry-date a::text', 'date': 'span.entry-date a::text'},
             'carwale': {'title': 'div.news-inner-box a.text-black::text', 'abstract': 'none', 'author': '.author-data span::text'},
-            'gaadi': {'title': '.card-title::text', 'abstract': 'div.card-content p::text', 'author': 'div.card-content div.publish a::text', 'image': '.card-image img'},
+            'gaadi': {'title': '.card-title::text', 'abstract': 'div.card-content p::text', 'author': 'div.card-content div.publish a::text', 'image': '.card-image img::attr(src)'},
             # 'goodcarbadcar': {},
             # 'not scraped hemmings': {'title': 'div.row a > h3::text', 'abstract': 'div.row p::text', 'author': 'div.row div.meta::text'},
             # 'motortrend': {'title': ''},

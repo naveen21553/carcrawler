@@ -71,7 +71,7 @@ class TestprojPipeline(object):
         source = d['_source']
         images = d['_image']
 
-        articles = []
+
         for i in range(len(authors)):
             article = {}
             article['source'] = source
@@ -79,12 +79,12 @@ class TestprojPipeline(object):
             article['_author'] = authors[i]
             article['_abstract'] = abstracts[i]
             article['_image'] = images[i]
-            articles.append(article)
-            
+            self.solr.add([article], commit=True)            
+
         logger = logging.getLogger()
         logger.setLevel(logging.DEBUG)
         logger.debug('\n\nadding articles\n\n')
-        self.solr.add(articles, commit=True)
+
         logger.debug('\n\nadded articles\n\n')       
 
         # solr_item = {}
