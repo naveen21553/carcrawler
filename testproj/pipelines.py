@@ -64,22 +64,24 @@ class TestprojPipeline(object):
         #         logging.info('Skipping duplicate')
         #         return item
 
-        d = dict(item)
-        authors = d['_author']
-        titles = d['_title']
-        abstracts = d['_abstract']
-        source = d['_source']
-        images = d['_image']
+        # d = dict(item)
+        # authors = d['_author']
+        # titles = d['_title']
+        # abstracts = d['_abstract']
+        # source = d['_source']
+        # images = d['_image']
 
 
-        for i in range(len(authors)):
-            article = {}
-            article['source'] = source
-            article['_title'] = titles[i]
-            article['_author'] = authors[i]
-            article['_abstract'] = abstracts[i]
-            article['_image'] = images[i]
-            self.solr.add([article], commit=True)            
+        # for i in range(len(authors)):
+        #     article = {}
+        #     article['source'] = source
+        #     article['_title'] = titles[i]
+        #     article['_author'] = authors[i]
+        #     article['_abstract'] = abstracts[i]
+        #     article['_image'] = images[i]
+
+            
+        self.solr.add([dict(item)], commit=True)            
 
         logger = logging.getLogger()
         logger.setLevel(logging.DEBUG)
@@ -93,7 +95,7 @@ class TestprojPipeline(object):
         # self.solr.add([solr_item])
         return item
 
-    def __get_item_value__(self, item, src):
+    def __get_item_value__(self, item, src):  
         if type(src) is str:
             return item[src] if src in item else None
         elif type(src) is list:

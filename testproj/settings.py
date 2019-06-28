@@ -80,8 +80,13 @@ ITEM_PIPELINES = {
   'testproj.pipelines.TestprojPipeline': 300,
 }
 
-SOLR_URL = 'http://139.59.19.82:8983/solr/carcoll/'
-# SOLR_URL = 'http://localhost:8983/solr/carcoll/'
+# Test URL
+# SOLR_URL = 'http://139.59.19.82:8983/solr/carcoll/'
+
+# Production URL
+SOLR_URL = 'http://localhost:8983/solr/carcoll/'
+
+
 # SOLR_MAPPING = {
 #   'id': '_source',
 #   'text': ['_title', '_abstract'],

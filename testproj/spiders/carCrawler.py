@@ -5,6 +5,7 @@ import scrapy_splash
 import os 
 import pysolr
 import logging
+from scrapy.loader import ItemLoader
 from scrapy.conf import settings
 from ..items import TestprojItem
 
@@ -273,14 +274,22 @@ class carCrawler(scrapy.Spider):
         #         self.logger.debug('\n\nArticle already exists! Aborting...\n\n')
         #         return None
 
-        items = TestprojItem()
-        items['_source'] = source
-        items['_title'] = title
-        items['_author'] = author
-        items['_abstract'] = abstract
-        items['_image'] = image
+        # items = TestprojItem()
+        # items['_source'] = source
+        # items['_title'] = title
+        # items['_author'] = author
+        # items['_abstract'] = abstract
+        # items['_image'] = image
 
-        yield items
+        for news in response.css('.card-news'):
+            loader = ItemLoader(item = TestprojItem(), selector = news, response = response)
+            loader.add_css('_title', 'a.card-title::text')
+            loader.add_css('_abstract', 'p::text')
+            loader.add_css('_author', 'div.publish a::text')
+            loader.add_css('_image', 'img::attr(src)')
+            loader.add_value('_source', response.url)
+            yield loader.load_item()
+
         try:
             current_page = int(response.url.split('=')[-1])
         except:

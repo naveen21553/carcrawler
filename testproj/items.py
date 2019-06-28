@@ -6,16 +6,36 @@
 # https://doc.scrapy.org/en/latest/topics/items.html
 
 import scrapy
+from scrapy.loader.processors import MapCompose, TakeFirst, Join
+
+def remove_quotations(value):
+    return value.replace(u"\u201d", '').replace(u"\u201c", '').replace('\n', '')
+
 
 class TestprojItem(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
-    _source = scrapy.Field()
-    _title = scrapy.Field()
-    _abstract = scrapy.Field()
-    _author = scrapy.Field()
+    _source = scrapy.Field(
+        input_processor =  MapCompose(str.strip),
+        output_processor = TakeFirst()
+    )
+    _title = scrapy.Field(
+        input_processor= MapCompose(str.strip, remove_quotations),
+        output_processor = TakeFirst()
+    )
+    _abstract = scrapy.Field(
+        input_processor= MapCompose(str.strip, remove_quotations),
+        output_processor = TakeFirst()
+    )
+    _author = scrapy.Field(
+        input_processor= MapCompose(remove_quotations, str.strip),
+        output_processor = TakeFirst()
+    )
     _date = scrapy.Field()
     _views = scrapy.Field()
     _likes = scrapy.Field()
-    _image = scrapy.Field()
+    _image = scrapy.Field(
+        input_processor = MapCompose(str.strip),
+        output_processor = TakeFirst()
+    )
     
