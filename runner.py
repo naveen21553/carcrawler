@@ -5,9 +5,9 @@ try:
         [
             'scrapy',
             'crawl',
-            'carcrawler',
+            'autolistcrawler',
             '-o',
-            'out.json',
+            'crawled.json',
         ]
     )
 except SystemExit:

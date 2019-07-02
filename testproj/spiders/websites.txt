@@ -37,7 +37,7 @@ https://blog.autotempest.com/ --> Load more articles
 # https://www.cardekho.com/car-videos.htm
 # https://www.cardekho.com/road-test.htm
 https://www.cardekho.com/india-car-news.htm
-# https://www.cardekho.com/car-reviews.htm
+# https://www.cardekho.com/car-reviews.htm2
 https://www.carwale.com/expert-reviews/
 https://www.zigwheels.com/video
 https://www.zigwheels.com/reviews
@@ -57,7 +57,6 @@ https://www.autoblog.com/
 https://www.autoblog.com/reviews/
 https://www.autoblog.com/owner-reviews/
 https://www.autoblog.com/green/
-https://www.motortrend.com/car-reviews/
 https://www.motortrend.com/video-short-shifts/oty/0_wc4lrn24
 https://www.caranddriver.com/reviews/
 https://www.caranddriver.com/features/

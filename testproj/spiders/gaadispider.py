@@ -12,7 +12,7 @@ from ..items import TestprojItem
 dir_path = os.path.dirname(os.path.realpath(__file__))
 
 class carCrawler(scrapy.Spider):
-    name = 'carcrawler'
+    name = 'gaadicrawler'
     ignore_duplicates = settings['SOLR_IGNORE_DUPLICATES'] or False
     solr = pysolr.Solr(settings['SOLR_URL'], timeout=10)
     logger = logging.getLogger()

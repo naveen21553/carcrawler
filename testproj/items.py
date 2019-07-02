@@ -31,8 +31,14 @@ class TestprojItem(scrapy.Item):
         input_processor= MapCompose(remove_quotations, str.strip),
         output_processor = TakeFirst()
     )
-    _date = scrapy.Field()
-    _views = scrapy.Field()
+    _date = scrapy.Field(
+        input_processor= MapCompose(remove_quotations, str.strip),
+        output_processor = TakeFirst()
+    )
+    _views = scrapy.Field(
+        input_processor= MapCompose(remove_quotations, str.strip),
+        output_processor = TakeFirst()
+    )
     _likes = scrapy.Field()
     _image = scrapy.Field(
         input_processor = MapCompose(str.strip),
