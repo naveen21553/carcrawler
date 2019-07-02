@@ -47,7 +47,8 @@ class TestprojPipeline(object):
 
     def __init__(self):
         # self.mapping = settings['SOLR_MAPPING'].items()
-        self.ignore_duplicates = settings['SOLR_IGNORE_DUPLICATES'] or False
+        # self.ignore_duplicates = settings['SOLR_IGNORE_DUPLICATES'] or False
+        self.ignore_duplicates = True
         self.id_fields = ['_title']
         # if self.ignore_duplicates and not self.id_fields:
         #     raise RuntimeError('To ignore duplicates SOLR_DUPLICATES_KEY_FIELDS has to be defined')
